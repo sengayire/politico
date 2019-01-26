@@ -1,6 +1,6 @@
-class party {
+const party = {
   // creating a parties
-  static async create(req, res) {
+  async create(req, res) {
     const {
       id, name, hqAddress, logoUrl,
     } = req.body;
@@ -10,14 +10,21 @@ class party {
         message: 'please fill into all information',
       });
     } else {
-      res.send({
-        status: 200,
-        data: [{
-          id,
-          name,
-        }],
-      });
+      try {
+        res.send({
+          status: 200,
+          data: [{
+            id,
+            name,
+          }],
+        });
+      } catch (error) {
+        res.send({
+          status: 404,
+          error: 'con\'t create party',
+        });
+      }
     }
-  }
-}
+  },
+};
 export default party;
