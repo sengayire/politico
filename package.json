@@ -7,7 +7,8 @@
     "build": "babel src --out-dir src/dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/app.js",
-    "start": "babel-node src/app.js"
+    "start": "babel-node src/app.js",
+    "heroku-prebuild": "npm install --only=dev"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,6 @@
   },
   "engines": {
     "node": "8.10.0",
-    "nmp": "6.7.0"
+    "npm": "6.7.0"
   }
 }
