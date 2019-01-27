@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "babel src --out-dir src/dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/app.js",
-    "start": "babel-node src/app.js"
+    "start": "babel-node src/app.js",
+    "heroku-prebuild": "npm install --only=dev"
   },
   "repository": {
     "type": "git",
@@ -20,9 +22,13 @@
   },
   "homepage": "https://github.com/sengayire/politico#readme",
   "dependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/node": "^7.2.2",
     "@babel/register": "^7.0.0",
+    "babel": "^6.23.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
@@ -31,9 +37,6 @@
     "mocha": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/node": "^7.2.2",
     "@babel/preset-react": "^7.0.0",
     "babel-preset-airbnb": "^3.2.0",
     "eslint": "^5.12.1",
@@ -41,5 +44,9 @@
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.12.4"
+  },
+  "engines": {
+    "node": "8.10.0",
+    "npm": "6.7.0"
   }
 }

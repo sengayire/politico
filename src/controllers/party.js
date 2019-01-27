@@ -1,5 +1,7 @@
+import data from '../data/partyData';
+
 const party = {
-  // creating a parties
+  // api to create creating a party
   async create(req, res) {
     const {
       id, name, hqAddress, logoUrl,
@@ -13,17 +15,37 @@ const party = {
       try {
         res.send({
           status: 200,
+          message: 'Party created successfuly',
           data: [{
             id,
             name,
+            hqAddress,
+            logoUrl,
           }],
         });
       } catch (error) {
         res.send({
           status: 404,
-          error: 'con\'t create party',
+          error: 'can\'t create table',
         });
       }
+    }
+  },
+
+  // api to get all political parties
+  async getAll(req, res) {
+    try {
+      res.send({
+        status: 200,
+        data,
+      });
+    } catch (e) {
+      res.send({
+        status: 404,
+        error: 'party can\'t be created',
+
+      });
+
     }
   },
 };
