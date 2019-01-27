@@ -45,6 +45,7 @@ const party = {
         error: 'party can\'t be created',
 
       });
+
     }
   },
 };
