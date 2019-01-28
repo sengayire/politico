@@ -45,7 +45,31 @@ const party = {
         error: 'party can\'t be created',
 
       });
+    }
+  },
 
+  // get a specific party by id
+  async getOne(req, res) {
+    const { Id } = req.params.id;
+    const records = [data];
+    const row = records.find(k => k.id === Id);
+    if (row.length !== 0) {
+      try {
+        res.send({
+          status: 200,
+          message: 'record found!!!',
+          data: row,
+        });
+      } catch (error) {
+        res.send({
+          error,
+        });
+      }
+    } else {
+      res.status(400).send({
+        status: 400,
+        message: 'party not found!!!',
+      });
     }
   },
 };
