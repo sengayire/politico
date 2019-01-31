@@ -5,7 +5,6 @@ import '@babel/polyfill';
 import app from '../app';
 
 chai.should();
-
 chai.use(chaiHttp);
 
 // Test error 404
@@ -34,6 +33,19 @@ describe('should create a political office', () => {
         res.should.have.status(200);
         res.body.should.have.property('message');
         res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+
+// test that it get a specific political office by id
+describe('fetch a specific political office by id', () => {
+  it('should get a specific political office', (done) => {
+    chai.request(app)
+      .get('/api/v1/offices/id')
+      .end((err, res) => {
+        res.should.be.a('object');
+        res.should.have.status(200);
         done();
       });
   });
