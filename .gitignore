@@ -3,3 +3,7 @@ node_modules
 .eslintrc.json
 .babelrc
 .nyc_output
+src
+.babelrc
+Procfile
+README.md
