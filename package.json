@@ -7,7 +7,7 @@
     "build": "babel src --out-dir src/dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/app.js",
-    "start": "babel-node src/app.js"
+    "start": "@babel/node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "babel": "^6.23.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
