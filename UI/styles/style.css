@@ -154,7 +154,7 @@ footer p{
     border: black 1px;
     border-radius: 2px;
     background-color: white;
-    min-height: 480px;
+    min-height: 350px;
     width: 340px;
     margin: 30px 100px 0 500px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -169,7 +169,7 @@ footer p{
     display: block;
     min-width: 300px;
     min-height: 40px;
-    margin:0 0px 5px 18px ;
+    margin:0 0px 5px 18px;
 }
 .form-container form button{
     border: black 1px solid;
@@ -201,5 +201,14 @@ footer p{
     margin: 0 60px 0 0;
 }
 .home a{
+    color: white;
+}
+#forgot{
+    color: blue;
+    text-align: center;
+}
+.home-in p{ 
+    padding: 80px 60px 0 0;
+    float: right;
     color: white;
 }
