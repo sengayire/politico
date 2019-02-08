@@ -1,4 +1,4 @@
-import Office from '../data/office';
+import data from '../data/office';
 
 const office = {
 
@@ -29,16 +29,42 @@ const office = {
       }
     }
   },
+  // get all available political office
   async getAll(req, res) {
     try {
       res.status(200).send({
         status: 200,
-        data: Office,
+        data,
       });
     } catch (error) {
       res.status(404).send({
         status: 404,
         error,
+      });
+    }
+  },
+
+  // get a specific office
+  async getOne(req, res) {
+    const { id } = req.params.id;
+    const records = [data];
+    const row = records.find(k => k.id === id);
+    if (row.length >= 1) {
+      try {
+        res.status(200).send({
+          status: 200,
+          message: 'office has been found',
+          data: row[0],
+        });
+      } catch (error) {
+        res.status(400).send({
+          error,
+        });
+      }
+    } else {
+      records.status(404).send({
+        status: 404,
+        message: 'Office not found!!!',
       });
     }
   },
