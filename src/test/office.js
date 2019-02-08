@@ -4,7 +4,7 @@ import chaiHttp from 'chai-http';
 import '@babel/polyfill';
 import app from '../app';
 
-chai.should();
+const should = chai.should();
 chai.use(chaiHttp);
 
 // Test error 404
