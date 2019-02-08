@@ -1,8 +1,10 @@
 language: node_js
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: 23f1f4da7c5483195041a29b26bb0aa4ee88b490
-  keep-history: true
-  on:
-    branch: develop
+node_js:
+ - 'stable'
+cache:
+ directories:
+   - 'node_modules'
+script:
+ - npm run test
+after_success:
+ - npm run coveralls
