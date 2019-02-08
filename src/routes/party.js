@@ -6,5 +6,6 @@ const router = express.Router();
 router.post('/', party.create);
 router.get('/', party.getAll);
 router.get('/:id', party.getOne);
+router.delete('/:id', party.deleteOne);
 
 export default router;

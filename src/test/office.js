@@ -19,6 +19,7 @@ describe('Error 404 test', () => {
       })
       .end((err, res) => {
         res.should.have.status(404);
+        res.should.be.a('object');
         done();
       });
   });
