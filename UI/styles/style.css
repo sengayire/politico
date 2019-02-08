@@ -78,7 +78,8 @@ header a:hover{
 #showcase #home{
     margin: 0;
     width: 100%;
-    height: 500px;min-height: 450px;
+    height: 500px;
+    min-height: 450px;
     font-size: 17px;
     font-weight: bold;
     color: white;
@@ -218,4 +219,23 @@ footer p{
 #reset-form{
     margin-top: 130px;
     min-height: 200px;
+}
+
+/* Styling admin dashboard*/
+.showcase-dashboard{
+    min-height: 100%;
+    background: rgba(214, 214, 214, 0.979);
+}
+.showcase-dashboard aside{
+    background: white;
+    min-height: 550px;
+    max-width: 250px;
+}
+.dashboard{
+    background: rgb(221, 221, 221);
+}
+.admin-view{
+    float: right;
+    max-height: 500px;
+    max-height: 500px;
 }
