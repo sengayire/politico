@@ -1,1 +1,1 @@
-web: NODE_ENV=production nodemon  --exec babel-node src/app.js
+web: NODE_ENV=production nodemon --exec babel-node src/app.js
