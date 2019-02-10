@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import '@babel/polyfill';
 import app from '../app';
 
 const should = chai.should();
