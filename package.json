@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "babel src --out-dir src/dist",
-    "test": "nyc mocha --require babel-polyfill --require babel-register --exec babel-node  src/test/ --exit",
-    "dev": "nodemon --exec babel-node src/app.js",
-    "start": " babel-node src/app.js"
+    "build": "babel src --out-dir server/dist",
+    "test": "nyc mocha --require babel-polyfill --require babel-register --exec babel-node  server/test/ --exit",
+    "dev": "nodemon --exec babel-node server/app.js",
+    "start": " babel-node server/app.js"
   },
   "repository": {
     "type": "git",
