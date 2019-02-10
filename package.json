@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "babel src --out-dir server/dist",
-    "test": "nyc mocha --require babel-polyfill --require babel-register --exec babel-node  server/test/ --exit",
+    "test": "nyc mocha -require babel-register --exec babel-node  server/test/ --exit",
     "dev": "nodemon --exec babel-node server/app.js",
     "start": " babel-node server/app.js"
   },
