@@ -78,7 +78,8 @@ header a:hover{
 #showcase #home{
     margin: 0;
     width: 100%;
-    height: 500px;min-height: 450px;
+    height: 500px;
+    min-height: 450px;
     font-size: 17px;
     font-weight: bold;
     color: white;
@@ -154,7 +155,7 @@ footer p{
     border: black 1px;
     border-radius: 2px;
     background-color: white;
-    min-height: 480px;
+    min-height: 350px;
     width: 340px;
     margin: 30px 100px 0 500px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -169,7 +170,7 @@ footer p{
     display: block;
     min-width: 300px;
     min-height: 40px;
-    margin:0 0px 5px 18px ;
+    margin:0 0px 5px 18px;
 }
 .form-container form button{
     border: black 1px solid;
@@ -202,4 +203,43 @@ footer p{
 }
 .home a{
     color: white;
+}
+#forgot{
+    color: blue;
+    text-align: center;
+}
+.home-in p{ 
+    padding: 80px 60px 0 0;
+    float: right;
+    color: white;
+}
+#forgot p:hover{
+    color: red;
+}
+#reset-form{
+    margin-top: 130px;
+    min-height: 200px;
+}
+
+/* Styling admin dashboard*/
+.showcase-dashboard{
+    min-height: 100%;
+    background: rgba(214, 214, 214, 0.979);
+}
+.showcase-dashboard aside{
+    float: left;
+    background: white;
+    min-height: 560px;
+    max-width: 300px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+}
+.dashboard{
+    background: rgb(221, 221, 221);
+}
+.admin-view{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+    float: left;
+    margin: 20px 10px 0 20px;
+    min-height: 300px;
+    min-width: 1040px;
 }

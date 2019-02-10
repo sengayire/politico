@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import data from '../data/partyData';
+import data from '../models/partyData';
 
 const party = {
   // api to create creating a party

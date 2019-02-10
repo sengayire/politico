@@ -18,7 +18,7 @@ app.use('/api/v1/parties', router);
 app.use('/api/v1/offices', officeRoute);
 
 // assining a port for runing node
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port: ${port}`);
 });

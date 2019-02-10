@@ -1,4 +1,4 @@
-import data from '../data/office';
+import data from '../models/office';
 
 const office = {
 
