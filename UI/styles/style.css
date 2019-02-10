@@ -227,15 +227,19 @@ footer p{
     background: rgba(214, 214, 214, 0.979);
 }
 .showcase-dashboard aside{
+    float: left;
     background: white;
-    min-height: 550px;
-    max-width: 250px;
+    min-height: 560px;
+    max-width: 300px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
 }
 .dashboard{
     background: rgb(221, 221, 221);
 }
 .admin-view{
-    float: right;
-    max-height: 500px;
-    max-height: 500px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+    float: left;
+    margin: 20px 10px 0 20px;
+    min-height: 300px;
+    min-width: 1040px;
 }
