@@ -1,4 +1,8 @@
-https://travis-ci.org/sengayire/politico.svg?branch=develop
+[![Build Status](https://travis-ci.org/sengayire/politico.svg?branch=develop)](https://travis-ci.org/sengayire/politico)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/b7f97318bdbc0480c4e2/maintainability)](https://codeclimate.com/github/sengayire/politico/maintainability)
+
+[![Coverage Status](https://coveralls.io/repos/github/sengayire/politico/badge.svg?branch=master)](https://coveralls.io/github/sengayire/politico?branch=master)
 
 # politico
 
@@ -28,8 +32,8 @@ these are  API Endpoints that will be used in the app:
 
 # Additional Tools
 * TravisCI for Continous Integration
-* Istanbul and nyc for test coverage
+* nyc for test coverage
 * CodeClimate and Coveralls for badges
 * Heroku for app Deployment 
 
-This is the  url link of the app on heroku 
+This is the  url link of the app on heroku: https://dashboard.heroku.com/apps/politico-andela 
