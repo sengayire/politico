@@ -1,1 +1,1 @@
-web: babel-node src/app.js
+web: NODE_ENV=production nodemon --exec babel-node server/app.js

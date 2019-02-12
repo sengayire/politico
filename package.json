@@ -4,11 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "babel src --out-dir src/dist",
-    "test": "nyc mocha --require @babel/polyfill --require @babel/register --exec babel-node  src/test/ --exit",
-    "dev": "nodemon --exec babel-node src/app.js",
-    "start": "babel-node src/app.js",
-    "heroku-prebuild": "npm install --only=dev"
+    "build": "babel src --out-dir server/dist",
+    "test": "nyc mocha --require babel-polyfill --require babel-register --exec babel-node  server/test/ --exit",
+    "dev": "nodemon --exec babel-node server/app.js",
+    "start": " babel-node server/app.js"
   },
   "repository": {
     "type": "git",
@@ -22,22 +21,20 @@
   },
   "homepage": "https://github.com/sengayire/politico#readme",
   "dependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/node": "^7.2.2",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/register": "^7.0.0",
-    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "nodemon": "^1.18.10",
     "yarn": "^1.13.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/preset-react": "^7.0.0",
     "babel-preset-airbnb": "^3.2.0",
     "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -49,7 +46,6 @@
     "nyc": "^13.1.0"
   },
   "engines": {
-    "node": "8.10.0",
-    "npm": "6.7.0"
+    "node": "8.10.0"
   }
 }
