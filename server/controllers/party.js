@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import data from '../models/partyData';
+import Party from '../models/partyData';
 
 const party = {
   // api to create creating a party
@@ -7,123 +7,111 @@ const party = {
     const {
       id, name, hqAddress, logoUrl,
     } = req.body;
-    if (!name || !hqAddress || !logoUrl) {
-      res.send({
+
+    if (!name) {
+      res.status(200).send({
         status: 400,
-        message: 'please fill into all information',
+        message: 'please provide all information',
       });
     } else {
       try {
-        res.send({
+        const data = {
+          id, name, hqAddress, logoUrl,
+        };
+        const record = Party.createParty(data);
+        res.status(200).send({
           status: 200,
-          message: 'Party created successfuly',
-          data: [{
-            id,
-            name,
-            hqAddress,
-            logoUrl,
-          }],
+          message: 'office created successfuly',
+          data: [record],
         });
       } catch (error) {
         res.send({
-          status: 404,
-          error: 'can\'t create table',
+          status: 400,
+          error,
         });
       }
     }
   },
 
-  // api to get all political parties
+  // get all available party
   async getAll(req, res) {
+    const record = Party.fetchAll();
     try {
-      res.send({
+      res.status(200).send({
         status: 200,
-        data,
+        record,
       });
-    } catch (e) {
-      res.send({
+    } catch (error) {
+      res.status(404).send({
         status: 404,
-        error: 'party can\'t be created',
-
+        error,
       });
     }
   },
 
   // get a specific party by id
   async getOne(req, res) {
-    const { Id } = req.params.id;
-    const records = [data];
-    const row = records.find(k => k.id === Id);
-    if (row.length !== 0) {
-      try {
-        res.send({
-          status: 200,
-          message: 'record found!!!',
-          data: row,
-        });
-      } catch (error) {
-        res.send({
-          error,
-        });
-      }
-    } else {
-      res.status(400).send({
-        status: 400,
-        message: 'party not found!!!',
-      });
-    }
-  },
-  // delete a specific political party by id
-  async deleteOne(req, res) {
-    const { id } = req.params.id;
-    const records = [data];
-    const row = records.find(k => k.id === id);
-    if (row.length >= 1) {
+    const record = Party.findOne(req.params.id, 10);
+    if (!record) {
       try {
         res.status(200).send({
-          status: 200,
-          message: 'political party has been deleted successfull',
-          data: row[0],
-        });
-      } catch (error) {
-        res.status(404).send({
           status: 404,
-          error,
-        });
-      }
-    } else {
-      res.status(400).send({
-        status: 400,
-        message: 'party not deleted,plesse try again!!!',
-      });
-    }
-  },
-  async editOne(req, res) {
-    const name = req.body.name;
-    const { Id } = req.params.id;
-    const records = [data];
-    const row = records.find(k => k.id === Id);
-    if (row.length >= 1) {
-      try {
-        res.status(200).send({
-          status: 200,
-          message: 'party edited successfuly',
-          data: [{
-            name,
-          }],
+          message: 'Office not found!!!',
         });
       } catch (error) {
         res.status(400).send({
-          status: 400,
           error,
         });
       }
     } else {
       res.status(404).send({
         status: 200,
-        message: 'party has not been edited',
+        message: 'office has been found',
+        data: [{
+          party: record.name,
+          hqAddress: record.hqAddress,
+        }],
       });
     }
+  },
+
+  // delete a specific political party by id
+  async deleteOne(req, res) {
+    const record = Party.findOne(req.params.id);
+    if (record) {
+      Party.delete();
+      res.send({
+        status: 200,
+        message: 'party deleted successfully',
+      });
+    } else {
+      return res.send({
+        status: 400,
+        error: 'oops can\'t delete a party',
+      });
+    }
+    return Party;
+  },
+
+  // delete a specific political party by id
+  async editOne(req, res) {
+    const record = Party.findOne(req.params.id);
+    if (record) {
+      Party.edit();
+      res.send({
+        status: 200,
+        message: 'party edited successfully',
+        data: {
+          record,
+        },
+      });
+    } else {
+      return res.send({
+        status: 400,
+        error: 'oops can\'t edit a party',
+      });
+    }
+    return Party;
   },
 };
 export default party;

@@ -1,7 +1,7 @@
-import data from '../models/office';
+import Office from '../models/office';
 
 const office = {
-
+// controller to create apolitical office
   async create(req, res) {
     const { id, type, name } = req.body;
 
@@ -12,14 +12,12 @@ const office = {
       });
     } else {
       try {
+        const data = { id, type, name };
+        const record = Office.createOffice(data);
         res.status(200).send({
           status: 200,
           message: 'office created successfuly',
-          data: {
-            id,
-            type,
-            name,
-          },
+          data: [record],
         });
       } catch (error) {
         res.send({
@@ -29,12 +27,14 @@ const office = {
       }
     }
   },
+
   // get all available political office
   async getAll(req, res) {
+    const record = Office.fetchAll();
     try {
       res.status(200).send({
         status: 200,
-        data,
+        record,
       });
     } catch (error) {
       res.status(404).send({
@@ -46,15 +46,12 @@ const office = {
 
   // get a specific office
   async getOne(req, res) {
-    const { id } = req.params.id;
-    const records = [data];
-    const row = records.find(k => k.id === id);
-    if (row.length >= 1) {
+    const record = Office.findOne(req.params.id, 10);
+    if (!record) {
       try {
         res.status(200).send({
-          status: 200,
-          message: 'office has been found',
-          data: row[0],
+          status: 404,
+          message: 'Office not found!!!',
         });
       } catch (error) {
         res.status(400).send({
@@ -62,11 +59,32 @@ const office = {
         });
       }
     } else {
-      records.status(404).send({
-        status: 404,
-        message: 'Office not found!!!',
+      res.status(404).send({
+        status: 200,
+        message: 'office has been found',
+        data: [{
+          Office: record.name,
+          type: record.type,
+        }],
       });
     }
   },
+
+  // delete todo object data
+  async deleteOne(req, res) {
+    const record = Office.findOne(req.params.id);
+    if (record) {
+      Office.delete();
+      res.send({
+        message: 'office delete',
+      });
+    } else {
+      return res.send({
+        message: 'oops can\'t delete the item',
+      });
+    }
+    return Office;
+  },
 };
+
 export default office;
