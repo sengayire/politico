@@ -26,15 +26,22 @@ class Office {
   }
 
   // model to find specific office by id
-  findOne(id) {
+  findOneOffice(id) {
     const records = this.offices;
     // const row = records.findIndex(k => k.id === parseInt(id, 10));
     const row = records.find(office => office.id === id);
     return row;
   }
 
+  // model to find specific office by name
+  findOneByName(name) {
+    const records = this.offices;
+    const row = records.find(office => office.name === name);
+    return row;
+  }
+
   // model to delete specific office by id
-  delete(id) {
+  deleteOffice(id) {
     const rowIndex = this.offices.find(k => k.id === id);
     const result = this.offices.splice(rowIndex, 1);
     return result;

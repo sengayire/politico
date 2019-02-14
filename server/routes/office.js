@@ -5,7 +5,7 @@ const officeRoute = express.Router();
 
 // Political Office API endpoints
 officeRoute.post('/', office.create);
-officeRoute.get('/', office.getAll);
-officeRoute.get('/:id', office.getOne);
+officeRoute.get('/', office.getAllOffices);
+officeRoute.get('/:id', office.getOneOffice);
 officeRoute.delete('/:id', office.deleteOne);
 export default officeRoute;

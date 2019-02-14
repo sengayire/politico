@@ -12,6 +12,13 @@ const office = {
       });
     } else {
       try {
+        const find = Office.findOneByName(req.body.name);
+        if (find) {
+          res.send({
+            status: 400,
+            error: 'office already exist, please try other name',
+          });
+        }
         const data = { id, type, name };
         const record = Office.createOffice(data);
         res.status(200).send({
@@ -29,7 +36,7 @@ const office = {
   },
 
   // get all available political office
-  async getAll(req, res) {
+  async getAllOffice(req, res) {
     const record = Office.fetchAll();
     try {
       res.status(200).send({
@@ -45,8 +52,8 @@ const office = {
   },
 
   // get a specific office
-  async getOne(req, res) {
-    const record = Office.findOne(req.params.id, 10);
+  async getOneOffice(req, res) {
+    const record = Office.findOneOffice(req.params.id);
     if (!record) {
       try {
         res.status(200).send({
@@ -72,9 +79,9 @@ const office = {
 
   // delete todo object data
   async deleteOne(req, res) {
-    const record = Office.findOne(req.params.id);
+    const record = Office.findOneOffice(req.params.id);
     if (record) {
-      Office.delete();
+      Office.deleteOffice();
       res.send({
         message: 'office delete',
       });

@@ -15,13 +15,20 @@ const party = {
       });
     } else {
       try {
+        const find = Party.findByName(req.body.name);
+        if (find) {
+          return res.send({
+            status: 400,
+            error: 'Party already exist, please try other name',
+          });
+        }
         const data = {
           id, name, hqAddress, logoUrl,
         };
         const record = Party.createParty(data);
-        res.status(200).send({
+        return res.status(200).send({
           status: 200,
-          message: 'office created successfuly',
+          message: 'Party created successfuly',
           data: [record],
         });
       } catch (error) {
@@ -31,10 +38,11 @@ const party = {
         });
       }
     }
+    return null;
   },
 
   // get all available party
-  async getAll(req, res) {
+  async getAllParties(req, res) {
     const record = Party.fetchAll();
     try {
       res.status(200).send({
@@ -50,7 +58,7 @@ const party = {
   },
 
   // get a specific party by id
-  async getOne(req, res) {
+  async getOneParty(req, res) {
     const record = Party.findOne(req.params.id, 10);
     if (!record) {
       try {
@@ -79,7 +87,7 @@ const party = {
   async deleteOne(req, res) {
     const record = Party.findOne(req.params.id);
     if (record) {
-      Party.delete();
+      Party.deleteParty();
       res.send({
         status: 200,
         message: 'party deleted successfully',
@@ -95,20 +103,25 @@ const party = {
 
   // delete a specific political party by id
   async editOne(req, res) {
-    const record = Party.findOne(req.params.id);
-    if (record) {
-      Party.edit();
-      res.send({
-        status: 200,
-        message: 'party edited successfully',
-        data: {
-          record,
-        },
-      });
+    const partyId = Party.findOne(req.params.id);
+    const partyName = Party.findByName(req.params.name);
+    if (partyId && partyName) {
+      try {
+        const update = Party.editParty(req.params.id);
+        return res.status(200).send({
+          status: 200,
+          data: [update],
+        });
+      } catch (error) {
+        res.send({
+          status: 400,
+          error,
+        });
+      }
     } else {
       return res.send({
         status: 400,
-        error: 'oops can\'t edit a party',
+        error: 'oops can\'t party not found!!',
       });
     }
     return Party;
