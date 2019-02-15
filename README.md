@@ -60,3 +60,12 @@ these are  API Endpoints that will be used in the app:
 * Heroku for app Deployment 
 
 This is the  url link of the app on heroku: https://dashboard.heroku.com/apps/politico-andela 
+
+
+## Authors
+
+* **SENGAYIRE Prince** 
+## Acknowledgments
+
+* Alex Mochu
+
