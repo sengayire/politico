@@ -13,6 +13,29 @@ while building trust in the process through transparency.
 
 i have added this app on Github pages for someone who want to look how it work must foolow it via this link: https://sengayire.github.io/politico/UI/index.html
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+Here are the environment prerequisites for the web app
+
+```
+- NodeJS
+```
+
+## setup
+
+- in order to start this app localy you have to Clone the repository in local directory
+- switch to that diroctory 
+- add a .env file to configure the envarnment variable then correct change the corresponding variables
+- Run `npm install` to install node packages
+- Run `npm run dev` to start the web app running localy
+
+
+with an example of getting some data out of the system or using it for a little demo
+before use any of thise andpoint you have to start **api/v1/** then the endpoint
 these are  API Endpoints that will be used in the app:
 * **POST /parties/** Create to create a political party
 * **GET /parties** fetch all available political parties
