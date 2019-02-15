@@ -2,7 +2,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/b7f97318bdbc0480c4e2/maintainability)](https://codeclimate.com/github/sengayire/politico/maintainability)
 
-[![Coverage Status](https://coveralls.io/repos/github/sengayire/politico/badge.svg?branch=develop)](https://coveralls.io/github/sengayire/politico?branch=develop&kill_cache=1)
+[![Coverage Status](https://coveralls.io/repos/github/sengayire/politico/badge.svg)](https://coveralls.io/github/sengayire/politico)
 
 # politico
 
