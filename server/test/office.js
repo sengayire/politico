@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import Office from '../models/office';
 import app from '../app';
 
 const should = chai.should();
@@ -25,12 +26,19 @@ describe('Error 404 test', () => {
 });
 
 // test that it create political office
-describe('should create a political office', () => {
-  it('create an office', (done) => {
+describe('Office', () => {
+  const record = {
+    id: 1,
+    name: 'office',
+    type: 'state',
+    createdDate: Date(),
+  };
+  it('should create an office', (done) => {
     chai.request(app)
       .post('/api/v1/offices')
+      .send(record)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(400);
         res.body.should.have.property('message');
         res.body.should.be.a('object');
         done();
@@ -45,6 +53,74 @@ describe('fetch a specific political office by id', () => {
       .get('/api/v1/offices/id')
       .end((err, res) => {
         res.should.be.a('object');
+        res.should.have.status(200);
+        done();
+      });
+  });
+});
+
+describe('Get all Government offices', () => {
+  it('it should get all offices', (done) => {
+    chai.request(app)
+      .get('/api/v1/offices')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.a('object');
+        done();
+      });
+  });
+});
+
+
+// update a government office
+describe('Update political Office', () => {
+  it('should not Update an Office', (done) => {
+    const record = {
+      name: 'state office',
+      type: 'state',
+      createdDate: 23456,
+    };
+    chai.request(app)
+      .patch('/api/v1/offices/')
+      .send(record)
+      .end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+  });
+});
+
+// delete a government office
+describe('Delete a Government Office', () => {
+  it('it should fail to Delete an Office', (done) => {
+    const record = {
+      name: 'state office',
+      type: 'state',
+      createdDate: 23456,
+    };
+
+    const office = Office.createOffice(record);
+    chai.request(app)
+      .delete('/api/v1/offices/dhfdafd')
+      .send(office)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  it('it should delete an Office', (done) => {
+    const data = {
+      name: 'state office',
+      type: 'state',
+      createdDate: 23456,
+      modifiedDate: 2345,
+    };
+
+    const office = Office.createOffice(data);
+    chai.request(app)
+      .delete(`/api/v1/offices/${office.id}`)
+      .end((err, res) => {
         res.should.have.status(200);
         done();
       });

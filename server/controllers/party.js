@@ -26,7 +26,7 @@ const party = {
           id, name, hqAddress, logoUrl,
         };
         const record = Party.createParty(data);
-        return res.status(200).send({
+        res.status(200).send({
           status: 200,
           message: 'Party created successfuly',
           data: [record],
@@ -64,7 +64,7 @@ const party = {
       try {
         res.status(200).send({
           status: 404,
-          message: 'Office not found!!!',
+          message: 'Party not found!!!',
         });
       } catch (error) {
         res.status(400).send({

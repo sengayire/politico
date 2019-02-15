@@ -36,8 +36,8 @@ const office = {
   },
 
   // get all available political office
-  async getAllOffice(req, res) {
-    const record = Office.fetchAll();
+  async getAllOffices(req, res) {
+    const record = Office.fetchAllOfficies();
     try {
       res.status(200).send({
         status: 200,

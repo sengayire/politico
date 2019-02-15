@@ -1,3 +1,4 @@
+
 class Office {
   /* build a constructor
 *{object} data
@@ -16,12 +17,13 @@ class Office {
       type: data.type,
       createdDate: Date(),
     };
+
     this.offices.push(create);
     return create;
   }
 
   // model to fecth all available offices
-  fetchAll() {
+  fetchAllOfficies() {
     return this.offices;
   }
 
