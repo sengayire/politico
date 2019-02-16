@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 
 class Office {
   /* build a constructor
@@ -12,7 +13,7 @@ class Office {
   // create a political office
   createOffice(data) {
     const create = {
-      id: data.id,
+      id: uuid(),
       name: data.name,
       type: data.type,
       createdDate: Date(),

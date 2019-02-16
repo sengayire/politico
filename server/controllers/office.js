@@ -6,7 +6,7 @@ const office = {
     const { id, type, name } = req.body;
 
     if (!type || !name) {
-      res.status(200).send({
+      res.status(400).send({
         status: 400,
         message: 'please provide all information',
       });
@@ -15,7 +15,7 @@ const office = {
         const find = Office.findOneByName(req.body.name);
         if (find) {
           res.send({
-            status: 400,
+            status: 302,
             error: 'office already exist, please try other name',
           });
         }
@@ -83,11 +83,11 @@ const office = {
     if (record) {
       Office.deleteOffice();
       res.send({
-        message: 'office delete',
+        message: 'office successfully deleted',
       });
     } else {
       return res.send({
-        message: 'oops can\'t delete the item',
+        message: 'oops can\'t found the office',
       });
     }
     return Office;

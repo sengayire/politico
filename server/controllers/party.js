@@ -1,11 +1,12 @@
 /* eslint-disable prefer-destructuring */
+
 import Party from '../models/partyData';
 
 const party = {
   // api to create creating a party
   async create(req, res) {
     const {
-      id, name, hqAddress, logoUrl,
+      name, hqAddress, logoUrl,
     } = req.body;
 
     if (!name) {
@@ -22,8 +23,9 @@ const party = {
             error: 'Party already exist, please try other name',
           });
         }
+
         const data = {
-          id, name, hqAddress, logoUrl,
+          name, hqAddress, logoUrl,
         };
         const record = Party.createParty(data);
         res.status(200).send({
@@ -103,11 +105,25 @@ const party = {
 
   // delete a specific political party by id
   async editOne(req, res) {
-    const partyId = Party.findOne(req.params.id);
-    const partyName = Party.findByName(req.params.name);
-    if (partyId && partyName) {
+    const { id } = req.params;
+    console.log(id);
+    const {
+      name, hqAddress, logoUrl,
+    } = req.body;
+    // console.log(Party);
+    // console.log(Party.parties);
+    // console.log(Party.parties[0]);
+    const object = Party.parties.find(k => k.id === id);
+    console.log(object);
+    if (object) {
       try {
-        const update = Party.editParty(req.params.id);
+        const update = {
+          name, hqAddress, logoUrl,
+        };
+        object.name = update.name;
+        object.hqAddress = update.hqAddress;
+        object.logoUrl = update.logoUrl;
+        console.log(object);
         return res.status(200).send({
           status: 200,
           data: [update],
@@ -124,7 +140,6 @@ const party = {
         error: 'oops can\'t party not found!!',
       });
     }
-    return Party;
   },
 };
 export default party;

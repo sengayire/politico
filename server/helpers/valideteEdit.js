@@ -1,5 +1,6 @@
 import { celebrate, Joi } from 'celebrate';
 
+
 const validate = celebrate({
   body: Joi.object().keys({
     id: Joi.number(),
@@ -9,5 +10,4 @@ const validate = celebrate({
     logoUrl: Joi.string().required().trim(),
   }),
 });
-
 export default validate;
