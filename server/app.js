@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import router from './routes/party';
 import officeRoute from './routes/office';
 import user from './routes/user';
+import 'babel-polyfill';
 
 dotenv.config();
 const app = express();
@@ -21,7 +22,8 @@ app.use('/api/v1/parties', router);
 app.use('/api/v1/offices', officeRoute);
 
 // user API
-app.use('/api/v1/', user);
+app.use('/api/v1/users', user);
+
 // assining a port for runing node
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

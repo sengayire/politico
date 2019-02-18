@@ -1,25 +1,23 @@
 /* eslint-disable no-multi-assign */
 import uuid from 'uuid';
-import execute from '../models/database/database';
-import db from '../models/database/queries';
+import sqlQueries from '../models/database/queries';
+// import connect from '../models/database/database';
+import connect from '../models/database/index';
 
 const user = {
   // create user table
-  async createTable(req, res) {
-    const create = db.UserTable;
-    if (create) {
-      try {
-        res.send({
-          msg: 'table created',
-        });
-        await execute(create);
-      } catch (error) {
-        res.status(400).send({
-          status: 400,
-          error,
-        });
-      }
-    }
+  async createTable() {
+    const table = sqlQueries.userTable;
+    const execute = connect.query(table)
+      .then((res) => {
+        console.log(res);
+        connect.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        connect.end();
+      });
+    return execute;
   },
 
   // sign up new user
@@ -34,7 +32,7 @@ const user = {
       passportUrl,
     } = req.body;
 
-    const User = [
+    const data = [
       uuid(),
       firstName,
       lastName,
@@ -44,31 +42,26 @@ const user = {
       phoneNumber,
       passportUrl,
     ];
-    const search = db.selectAll;
-    const found = await execute(search, [email]);
-    if (found) {
-      res.status(300).send({
-        status: 300,
-        message: 'user email alread exist',
+    const search = sqlQueries.selectAll;
+    let get = [];
+    get = await connect.query(search, [email]);
+    if (get.rowCount > 0) return res.send({ error: 'User already exist' });
+    try {
+      const queries = sqlQueries.singUp;
+      const { rows } = await connect.query(queries, data);
+
+      return res.status(200).send({
+        status: 200,
+        data: rows[0],
       });
-    } else {
-      const queries = db.singUp;
-      const signUp = await execute(queries, User);
-      if (signUp) {
-        try {
-          res.status(200).send({
-            status: 200,
-            message: 'Account has been created successfull',
-          });
-        } catch (error) {
-          res.status(400).send({
-            status: 400,
-            message: 'Account not created',
-          });
-        }
-      }
+    } catch (error) {
+      return res.status(400).send({
+        status: 400,
+        error,
+      });
     }
   },
-};
 
+  // user sign in
+};
 export default user;
