@@ -63,5 +63,26 @@ const user = {
   },
 
   // user sign in
+  async signIn(req, res) {
+    const { email, password } = req.body;
+    const data = [email, password];
+    try {
+      const search = sqlQueries.selectAll += ' AND password = $2';
+      let get = [];
+      get = await connect.query(search, data);
+      console.log(get);
+      if (get.rowCount > 0) {
+        return res.send({ data: 'User sign in successfully' });
+      }
+      return res.send({
+        error: 'user not found!!!',
+
+      });
+    } catch (error) {
+      return res.send({
+        error,
+      });
+    }
+  },
 };
 export default user;
