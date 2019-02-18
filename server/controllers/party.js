@@ -110,9 +110,7 @@ const party = {
     const {
       name, hqAddress, logoUrl,
     } = req.body;
-    // console.log(Party);
-    // console.log(Party.parties);
-    // console.log(Party.parties[0]);
+
     const object = Party.parties.find(k => k.id === id);
     console.log(object);
     if (object) {
@@ -140,6 +138,7 @@ const party = {
         error: 'oops can\'t party not found!!',
       });
     }
+    return object;
   },
 };
 export default party;

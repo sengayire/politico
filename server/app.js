@@ -1,7 +1,10 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import router from './routes/party';
 import officeRoute from './routes/office';
+import user from './routes/user';
 
+dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +20,8 @@ app.use('/api/v1/parties', router);
 // political Office API
 app.use('/api/v1/offices', officeRoute);
 
+// user API
+app.use('/api/v1/', user);
 // assining a port for runing node
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
