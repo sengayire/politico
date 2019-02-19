@@ -8,7 +8,7 @@ const userTable = `CREATE TABLE IF NOT EXISTS users(
     last_name   VARCHAR(30) NOT NULL,
     other_name VARCHAR(30),
     email VARCHAR(30),
-    password VARCHAR(30),
+    password VARCHAR(500),
     phone_number VARCHAR(30),
     passport_url VARCHAR(30),
     created_date TIMESTAMP,
