@@ -1,53 +1,23 @@
-import uuid from 'uuid';
 
-class Office {
-  /* build a constructor
-*{object} data
-*/
+const officeQueries = {};
 
+// create table to  store offices
+const officeTable = `CREATE TABLE IF NOT EXISTS offices(
+  id UUID PRIMARY KEY NOT NULL,
+  type VARCHAR(30) NOT NULL,
+  name VARCHAR(30) NOT NULL,
+  created_date TIMESTAMP,
+  modified_date TIMESTAMP
+   )`;
 
-  constructor() {
-    this.offices = [];
-  }
+// quiery to fetch paties
+const fetchOffices = 'SELECT * FROM offices';
 
-  // create a political office
-  createOffice(data) {
-    const create = {
-      id: uuid(),
-      name: data.name,
-      type: data.type,
-      createdDate: Date(),
-    };
+// Query to create office
+const createOffice = 'INSERT INTO offices(id, name, type) VALUES($1,$2,$3)';
 
-    this.offices.push(create);
-    return create;
-  }
+officeQueries.createOffice = createOffice;
+officeQueries.fetchOffices = fetchOffices;
+officeQueries.officeTable = officeTable;
 
-  // model to fecth all available offices
-  fetchAllOfficies() {
-    return this.offices;
-  }
-
-  // model to find specific office by id
-  findOneOffice(id) {
-    const records = this.offices;
-    // const row = records.findIndex(k => k.id === parseInt(id, 10));
-    const row = records.find(office => office.id === id);
-    return row;
-  }
-
-  // model to find specific office by name
-  findOneByName(name) {
-    const records = this.offices;
-    const row = records.find(office => office.name === name);
-    return row;
-  }
-
-  // model to delete specific office by id
-  deleteOffice(id) {
-    const rowIndex = this.offices.find(k => k.id === id);
-    const result = this.offices.splice(rowIndex, 1);
-    return result;
-  }
-}
-export default new Office();
+export default officeQueries;

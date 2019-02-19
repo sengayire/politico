@@ -1,9 +1,35 @@
-import Office from '../models/office';
+import uuid from 'uuid';
+import database from '../models/database/database';
+import officeQueries from '../models/office';
+import connect from '../models/database';
 
 const office = {
-// controller to create apolitical office
+// controller to create a political office table
+  async officeTable(req, res) {
+    const table = officeQueries.officeTable;
+    const execute = database.query(table)
+      .then((resolve) => {
+        console.log(resolve);
+        res.send({
+          status: 200,
+          message: 'office created succesfully',
+        });
+        database.end();
+      })
+      .catch((err) => {
+        res.send({
+          status: 400,
+          message: 'office not created',
+        });
+        console.log(err);
+        database.end();
+      });
+    return execute;
+  },
+
+  // create a new political office
   async create(req, res) {
-    const { id, type, name } = req.body;
+    const { type, name } = req.body;
 
     if (!type || !name) {
       res.status(400).send({
@@ -12,21 +38,28 @@ const office = {
       });
     } else {
       try {
-        const find = Office.findOneByName(req.body.name);
-        if (find) {
+        let findOffice = officeQueries.fetchOffices;
+
+        findOffice += ' WHERE name = $1';
+        let execute = [];
+        execute = await connect.query(findOffice, [name]);
+        if (execute.rowCount > 0) {
           res.send({
             status: 302,
             error: 'office already exist, please try other name',
           });
+        } else {
+          const data = [uuid(), name, type];
+          const records = officeQueries.createOffice;
+          await connect.query(records, data);
+          res.status(200).send({
+            status: 200,
+            message: 'office created successfuly',
+            data: data[name],
+          });
         }
-        const data = { id, type, name };
-        const record = Office.createOffice(data);
-        res.status(200).send({
-          status: 200,
-          message: 'office created successfuly',
-          data: [record],
-        });
       } catch (error) {
+        console.log(error);
         res.send({
           status: 400,
           error,
@@ -35,63 +68,6 @@ const office = {
     }
   },
 
-  // get all available political office
-  async getAllOffices(req, res) {
-    const record = Office.fetchAllOfficies();
-    try {
-      res.status(200).send({
-        status: 200,
-        record,
-      });
-    } catch (error) {
-      res.status(404).send({
-        status: 404,
-        error,
-      });
-    }
-  },
-
-  // get a specific office
-  async getOneOffice(req, res) {
-    const record = Office.findOneOffice(req.params.id);
-    if (!record) {
-      try {
-        res.status(200).send({
-          status: 404,
-          message: 'Office not found!!!',
-        });
-      } catch (error) {
-        res.status(400).send({
-          error,
-        });
-      }
-    } else {
-      res.status(404).send({
-        status: 200,
-        message: 'office has been found',
-        data: [{
-          Office: record.name,
-          type: record.type,
-        }],
-      });
-    }
-  },
-
-  // delete todo object data
-  async deleteOne(req, res) {
-    const record = Office.findOneOffice(req.params.id);
-    if (record) {
-      Office.deleteOffice();
-      res.send({
-        message: 'office successfully deleted',
-      });
-    } else {
-      return res.send({
-        message: 'oops can\'t found the office',
-      });
-    }
-    return Office;
-  },
 };
 
 export default office;
