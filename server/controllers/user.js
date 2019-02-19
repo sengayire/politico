@@ -76,5 +76,41 @@ const user = {
     }
   },
   // user sign in
+  async signIn(req, res) {
+    const { email, password } = req.body;
+
+    if (!helper.isValidEmail(email)) {
+      return res.status(400).send({ message: 'Please enter a valid email address' });
+    }
+
+    try {
+      const search = sqlQueries.selectAll += 'AND password = $2';
+      let fetchUser = [];
+
+      fetchUser = await connect.query(search, [email, password]);
+      console.log(fetchUser);
+
+      if (fetchUser.rowCount > 0) {
+        const compare = helper.comparePassword(fetchUser.rows[0].password, password);
+
+        if (!compare) {
+          return res.status(400).send({ message: 'The credentials you provided is incorrect' });
+        }
+        const token = helper.generateToken(fetchUser.rows[0].id);
+        return res.send({
+          data: 'User sign in successfully',
+          token,
+        });
+      }
+      res.send({
+        error: 'User not found',
+      });
+    } catch (error) {
+      console.log(error);
+      return res.send({
+        error,
+      });
+    }
+  },
 };
 export default user;
