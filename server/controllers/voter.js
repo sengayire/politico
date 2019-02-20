@@ -1,24 +1,25 @@
 import uuid from 'uuid';
 import database from '../models/database/database';
-import partyQueries from '../models/partyData';
+import voter from '../models/vote';
 import connect from '../models/database';
 
-const parties = {
+const candidates = {
 // controller to create a political office table
-    const table = partyQueries.createPartyTableQuery;
-    const execute = database.query(table)
+  async vortersTable(req, res) {
+    const table = voter.VotersTable;
+    const executeQueries = database.query(table)
       .then((resolve) => {
         console.log(resolve);
         res.send({
           status: 200,
-          message: 'party created succesfully',
+          message: 'voters table created succesfully',
         });
         database.end();
       })
       .catch((err) => {
         res.send({
           status: 400,
-          message: 'party not created',
+          message: 'voters table not created',
         });
         console.log(err);
         database.end();
@@ -26,35 +27,41 @@ const parties = {
     return executeQueries;
   },
 
-  // create a new political office
+  //  create a new political office
   async create(req, res) {
-    const { name, hqAddress } = req.body;
+    const {
+      createdOn, createdBy, office, candidate,
+    } = req.body;
 
-    if (!hqAddress || !name) {
+    if (!createdBy || !office || !candidate) {
       res.status(400).send({
         status: 400,
         message: 'please provide all information',
       });
     } else {
       try {
-        let findParties = partyQueries.fetchParties;
+        let findVoter = voter.fetchVoter;
 
-        findParties += ' WHERE name = $1';
+        findVoter += ' WHERE createdBy = $1 AND office = $2';
         let executeQueries = [];
-        executeQueries = await connect.query(findParties, [name]);
+        executeQueries = await connect.query(findVoter, [createdBy, office]);
         if (executeQueries.rowCount > 0) {
           res.send({
             status: 302,
-            error: 'party already exist, please try other name',
+            error: ' user already voted',
           });
         } else {
-          const data = [uuid(), name, hqAddress];
-          const records = partyQueries.createParties;
+          const data = [uuid(), createdOn, createdBy, candidate, office];
+          const records = voter.vote;
           await connect.query(records, data);
           res.status(200).send({
             status: 200,
-            message: 'party created successfuly',
-            data: data[name],
+            message: 'user voted successfuly',
+            data: {
+              office,
+              candidate,
+              createdBy,
+            },
           });
         }
       } catch (error) {
@@ -69,4 +76,4 @@ const parties = {
 
 };
 
-export default parties;
+export default candidates;
