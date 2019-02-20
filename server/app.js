@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import router from './routes/party';
 import officeRoute from './routes/office';
 import user from './routes/user';
+import vote from './routes/voter';
 import 'babel-polyfill';
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use('/api/v1/offices', officeRoute);
 // user API
 app.use('/api/v1/users', user);
 
+app.use('/api/v1/vote', vote);
 // assining a port for runing node
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
