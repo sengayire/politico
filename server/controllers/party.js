@@ -7,7 +7,7 @@ const parties = {
 // controller to create a political office table
   async partyTable(req, res) {
     const table = partyQueries.partyTable;
-    const execute = database.query(table)
+    const executeQueries = database.query(table)
       .then((resolve) => {
         console.log(resolve);
         res.send({
@@ -24,7 +24,7 @@ const parties = {
         console.log(err);
         database.end();
       });
-    return execute;
+    return executeQueries;
   },
 
   // create a new political office
@@ -41,9 +41,9 @@ const parties = {
         let findParties = partyQueries.fetchParties;
 
         findParties += ' WHERE name = $1';
-        let execute = [];
-        execute = await connect.query(findParties, [name]);
-        if (execute.rowCount > 0) {
+        let executeQueries = [];
+        executeQueries = await connect.query(findParties, [name]);
+        if (executeQueries.rowCount > 0) {
           res.send({
             status: 302,
             error: 'party already exist, please try other name',

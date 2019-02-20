@@ -9,7 +9,7 @@ const user = {
   // create user table
   async createTable() {
     const table = sqlQueries.userTable;
-    const execute = database.query(table)
+    const executeQueries = database.query(table)
       .then((res) => {
         console.log(res);
         database.end();
@@ -18,7 +18,7 @@ const user = {
         console.log(err);
         connect.end();
       });
-    return execute;
+    return executeQueries;
   },
 
   // sign up new user
@@ -64,10 +64,6 @@ const user = {
         data: rows[0].id,
         token,
       });
-      // return res.status(200).send({
-      //   status: 200,
-      //   data: rows[0],
-      // });
     } catch (error) {
       return res.status(400).send({
         status: 400,

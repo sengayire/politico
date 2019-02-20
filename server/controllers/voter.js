@@ -7,7 +7,7 @@ const candidates = {
 // controller to create a political office table
   async vortersTable(req, res) {
     const table = voter.VotersTable;
-    const execute = database.query(table)
+    const executeQueries = database.query(table)
       .then((resolve) => {
         console.log(resolve);
         res.send({
@@ -24,7 +24,7 @@ const candidates = {
         console.log(err);
         database.end();
       });
-    return execute;
+    return executeQueries;
   },
 
   //  create a new political office
@@ -43,9 +43,9 @@ const candidates = {
         let findVoter = voter.fetchVoter;
 
         findVoter += ' WHERE createdBy = $1 AND office = $2';
-        let execute = [];
-        execute = await connect.query(findVoter, [createdBy, office]);
-        if (execute.rowCount > 0) {
+        let executeQueries = [];
+        executeQueries = await connect.query(findVoter, [createdBy, office]);
+        if (executeQueries.rowCount > 0) {
           res.send({
             status: 302,
             error: ' user already voted',
