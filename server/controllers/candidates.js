@@ -30,10 +30,11 @@ const candidates = {
   // create a new political office
   async create(req, res) {
     const {
-      username, office, party, user,
+      username, party, candidate,
     } = req.body;
-
-    if (!office || !party || !user) {
+    const { office } = req.params;
+    console.log(office);
+    if (!party || !candidate) {
       res.status(400).send({
         status: 400,
         message: 'please provide all information',
@@ -44,14 +45,14 @@ const candidates = {
 
         findCandidate += ' WHERE office = $1 AND candidate = $2';
         let execute = [];
-        execute = await connect.query(findCandidate, [office, user]);
+        execute = await connect.query(findCandidate, [office, candidate]);
         if (execute.rowCount > 0) {
           res.send({
             status: 302,
             error: 'candidate  already exists',
           });
         } else {
-          const data = [uuid(), username, office, party, user];
+          const data = [uuid(), username, office, party, candidate];
           const records = candidatesQueries.createCandidate;
           await connect.query(records, data);
           res.status(200).send({
@@ -59,7 +60,7 @@ const candidates = {
             message: 'candidate created successfuly',
             data: {
               office,
-              user,
+              candidate,
             },
           });
         }
