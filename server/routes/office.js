@@ -8,9 +8,8 @@ const officeRoute = express.Router();
 // Political Office API endpoints
 officeRoute.post('/create', validate, office.officeTable);
 officeRoute.post('/', validate, office.create);
-// officeRoute.get('/', office.getAllOffices);
 officeRoute.get('/:id/result', office.results);
-// officeRoute.delete('/:id', office.deleteOne);
+
 
 officeRoute.use(errors());
 export default officeRoute;
