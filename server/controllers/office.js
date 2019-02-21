@@ -38,9 +38,7 @@ const office = {
       });
     } else {
       try {
-        let findOffice = officeQueries.fetchOffices;
-
-        findOffice += ' WHERE name = $1';
+        const findOffice = officeQueries.fetchOffices;
         let execute = [];
         execute = await connect.query(findOffice, [name]);
         if (execute.rowCount > 0) {
@@ -65,6 +63,44 @@ const office = {
           error,
         });
       }
+    }
+  },
+
+  // election results
+
+  async results(req, res) {
+    try {
+      const { id } = req.params;
+      // Check if office not exists
+      const findOffice = officeQueries.fetchOffices;
+      let executeOfficeQuery = [];
+      executeOfficeQuery = await connect.query(findOffice, [id]);
+      console.log(executeOfficeQuery);
+      if (executeOfficeQuery.rowCount === 0) {
+        return res.status(404).send({
+          status: 404,
+          error: `The office of id: <${id}> does not exist.`,
+        });
+      }
+
+      // Fetch election results
+      const { results } = officeQueries;
+      const fetchResults = await connect.query(results, [id]);
+      if (fetchResults.rowCount !== 0) {
+        return res.status(200).send({
+          status: 200,
+          data: fetchResults.rows,
+        });
+      }
+      return res.status(404).send({
+        status: 404,
+        message: 'results not found!!!.',
+      });
+    } catch (error) {
+      return res.status(500).send({
+        status: 500,
+        error: 'Internal server error',
+      });
     }
   },
 

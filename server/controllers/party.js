@@ -5,8 +5,7 @@ import connect from '../models/database';
 
 const parties = {
 // controller to create a political office table
-  async partyTable(req, res) {
-    const table = partyQueries.partyTable;
+    const table = partyQueries.createPartyTableQuery;
     const execute = database.query(table)
       .then((resolve) => {
         console.log(resolve);
@@ -24,7 +23,7 @@ const parties = {
         });
         database.end();
       });
-    return execute;
+    return executeQueries;
   },
 
   // create a new political office
