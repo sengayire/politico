@@ -102,11 +102,11 @@ const user = {
         error: 'User not found',
       });
     } catch (error) {
-      console.log(error);
       return res.send({
         error,
       });
     }
+    return 0;
   },
 };
 export default user;
