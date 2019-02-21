@@ -6,10 +6,6 @@ const candidateRoute = express.Router();
 
 // Political Office API endpoints
 candidateRoute.post('/create', candidates.candidatesTable);
-candidateRoute.post('/', candidates.create);
-// officeRoute.get('/', office.getAllOffices);
-// officeRoute.get('/:id', office.getOneOffice);
-// officeRoute.delete('/:id', office.deleteOne);
+candidateRoute.post('/:office/register', candidates.create);
 
-// officeRoute.use(errors());
 export default candidateRoute;

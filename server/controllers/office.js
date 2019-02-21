@@ -38,9 +38,7 @@ const office = {
       });
     } else {
       try {
-        let findOffice = officeQueries.fetchOffices;
-
-        findOffice += ' WHERE name = $1';
+        const findOffice = officeQueries.fetchOffices;
         let execute = [];
         execute = await connect.query(findOffice, [name]);
         if (execute.rowCount > 0) {
