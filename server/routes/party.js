@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/create', validate, party.partyTable);
 router.post('/', validate, party.create);
 // router.get('/', party.getAllParties);
-// router.get('/:id', party.getOneParty);
+router.get('/:id', party.getOneParty);
 // router.delete('/:id', party.deleteOne);
 // router.patch('/:id/:name', editValidation, party.editOne);
 
