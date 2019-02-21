@@ -6,8 +6,8 @@ const createPartyTableQuery = `CREATE TABLE IF NOT EXISTS parties(
   id UUID PRIMARY KEY NOT NULL,
   name VARCHAR(30) NOT NULL,
   hqAddress VARCHAR(30) NOT NULL,
-  created_date TIMESTAMP,
-  modified_date TIMESTAMP
+  created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
    )`;
 
 // quiery to fetch paties

@@ -9,5 +9,6 @@ const router = express.Router();
 // Political party APIs
 router.post('/create', validate, party.partyTable);
 router.post('/', validate, party.create);
+router.get('/:id', party.getOneParty);
 
 export default router;
