@@ -16,8 +16,16 @@ const fetchParties = 'SELECT * FROM parties';
 // Query to create office
 const createParties = 'INSERT INTO parties(id, name, hqAddress) VALUES($1,$2,$3)';
 
+// Query to delete party
+const deleteParty = 'DELETE FROM parties WHERE id = $1';
+
+// Query to Edit party
+const editParty = 'UPDATE parties SET name = $1 WHERE id = $2 RETURNING *';
+
 partyQueries.createParties = createParties;
 partyQueries.fetchParties = fetchParties;
+partyQueries.deleteParty = deleteParty;
+partyQueries.editParty = editParty;
 partyQueries.createPartyTableQuery = createPartyTableQuery;
 
 export default partyQueries;

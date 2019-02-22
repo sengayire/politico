@@ -10,6 +10,8 @@ const router = express.Router();
 router.post('/create', validate, party.partyTable);
 router.post('/', validate, party.create);
 router.get('/:id', party.getOneParty);
+router.delete('/:id', party.deleteOneParty);
+router.patch('/:id/:name', party.editOneParty);
 router.get('/', party.getAllParties);
 
 export default router;
