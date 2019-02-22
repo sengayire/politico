@@ -127,7 +127,8 @@ const office = {
     try {
       const { id } = req.params;
       // Check if office not exists
-      const findOffice = officeQueries.fetchOffices;
+      let findOffice = officeQueries.selectAll;
+      findOffice += ' WHERE id = $1';
       let executeOfficeQuery = [];
       executeOfficeQuery = await connect.query(findOffice, [id]);
       console.log(executeOfficeQuery);

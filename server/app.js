@@ -26,7 +26,7 @@ app.use('/api/v1/offices', officeRoute);
 // user API
 app.use('/api/v1/users', user);
 
-app.use('/api/v1/vote', vote);
+app.use('/api/v1/votes/', vote);
 
 // candidate route
 app.use('/api/v1/office', candidateRoute);

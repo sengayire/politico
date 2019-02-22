@@ -10,14 +10,14 @@ const candidates = {
     const executeQueries = database.query(table)
       .then((resolve) => {
         console.log(resolve);
-        res.send({
-          status: 200,
+        res.status(201).send({
+          status: 201,
           message: 'voters table created succesfully',
         });
         database.end();
       })
       .catch((err) => {
-        res.send({
+        res.status(400).send({
           status: 400,
           message: 'voters table not created',
         });

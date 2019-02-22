@@ -3,7 +3,7 @@ import user from '../controllers/user';
 
 const userRoute = express.Router();
 userRoute.post('/userTable', user.createTable);
-userRoute.post('/signup', user.signUp);
-userRoute.post('/signin', user.signIn);
+userRoute.post('/auth/signup', user.signUp);
+userRoute.post('/auth/signin', user.signIn);
 
 export default userRoute;

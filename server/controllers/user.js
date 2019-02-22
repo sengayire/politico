@@ -65,8 +65,8 @@ const user = {
         token,
       });
     } catch (error) {
-      return res.status(400).send({
-        status: 400,
+      return res.status(500).send({
+        status: 500,
         error,
       });
     }
@@ -80,12 +80,11 @@ const user = {
     }
 
     try {
-      const search = sqlQueries.selectAll += 'AND password = $2';
+      const search = sqlQueries.selectAll;
       let fetchUser = [];
 
-      fetchUser = await connect.query(search, [email, password]);
+      fetchUser = await connect.query(search, [email]);
       console.log(fetchUser);
-
       if (fetchUser.rowCount > 0) {
         const compare = helper.comparePassword(fetchUser.rows[0].password, password);
 
@@ -93,15 +92,23 @@ const user = {
           return res.status(400).send({ message: 'The credentials you provided is incorrect' });
         }
         const token = helper.generateToken(fetchUser.rows[0].id);
-        return res.send({
-          data: 'User sign in successfully',
-          token,
+        return res.status(200).send({
+          status: 200,
+          message: 'User sign in successfully',
+          data: [
+            {
+              token,
+              user: fetchUser.rows[0].first_name,
+            },
+          ],
+
         });
       }
       res.send({
         error: 'User not found',
       });
     } catch (error) {
+      console.log(error);
       return res.send({
         error,
       });

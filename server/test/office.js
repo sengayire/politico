@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import uuid from 'uuid';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import Office from '../models/office';
@@ -28,7 +29,7 @@ describe('Error 404 test', () => {
 // test that it create political office
 describe('Office', () => {
   const record = {
-    id: 1,
+    id: uuid(),
     name: 'office',
     type: 'state',
     createdDate: Date(),
@@ -38,7 +39,7 @@ describe('Office', () => {
       .post('/api/v1/offices')
       .send(record)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(401);
         res.body.should.have.property('message');
         res.body.should.be.a('object');
         done();

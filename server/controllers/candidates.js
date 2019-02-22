@@ -10,15 +10,15 @@ const candidates = {
     const execute = database.query(table)
       .then((resolve) => {
         console.log(resolve);
-        res.send({
-          status: 200,
+        res.status(201).send({
+          status: 201,
           message: 'candidate table created succesfully',
         });
         database.end();
       })
       .catch((err) => {
-        res.send({
-          status: 400,
+        res.status(500).send({
+          status: 500,
           message: 'candidate table not created',
         });
         console.log(err);
@@ -30,14 +30,14 @@ const candidates = {
   // create a new political office
   async create(req, res) {
     const {
-      username, party, candidate,
+      username, party, user,
     } = req.body;
     const { office } = req.params;
     console.log(office);
-    if (!party || !candidate) {
+    if (!office || !user) {
       res.status(400).send({
         status: 400,
-        message: 'please provide all information',
+        message: 'please provide all information',
       });
     } else {
       try {
@@ -45,29 +45,29 @@ const candidates = {
 
         findCandidate += ' WHERE office = $1 AND candidate = $2';
         let execute = [];
-        execute = await connect.query(findCandidate, [office, candidate]);
+        execute = await connect.query(findCandidate, [office, user]);
         if (execute.rowCount > 0) {
-          res.send({
-            status: 302,
+          res.status(409).send({
+            status: 409,
             error: 'candidate  already exists',
           });
         } else {
-          const data = [uuid(), username, office, party, candidate];
+          const data = [uuid(), username, office, party, user];
           const records = candidatesQueries.createCandidate;
           await connect.query(records, data);
-          res.status(200).send({
-            status: 200,
+          res.status(201).send({
+            status: 201,
             message: 'candidate created successfuly',
             data: {
               office,
-              candidate,
+              user,
             },
           });
         }
       } catch (error) {
         console.log(error);
-        res.send({
-          status: 400,
+        res.status(500).send({
+          status: 500,
           error,
         });
       }

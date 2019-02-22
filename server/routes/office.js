@@ -2,12 +2,13 @@ import { errors } from 'celebrate';
 import express from 'express';
 import office from '../controllers/office';
 import validate from '../helpers/officeValidation';
+import helpers from '../helpers/helper';
 
 const officeRoute = express.Router();
 
 // Political Office API endpoints
 officeRoute.post('/create', validate, office.officeTable);
-officeRoute.post('/', validate, office.create);
+officeRoute.post('/', helpers.verifyToken, validate, office.create);
 officeRoute.get('/:id/result', office.results);
 officeRoute.get('/', office.getAllOffices);
 officeRoute.get('/:id', office.getOneOffice);
