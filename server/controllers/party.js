@@ -1,10 +1,11 @@
 import uuid from 'uuid';
 import database from '../models/database/database';
 import partyQueries from '../models/partyData';
-import connect from '../models/database';
+import connect from '../models/database/index';
 
 const parties = {
 // controller to create a political office table
+  async partyTable(req, res) {
     const table = partyQueries.createPartyTableQuery;
     const execute = database.query(table)
       .then((resolve) => {
@@ -19,18 +20,18 @@ const parties = {
         console.log(error);
         res.status(500).send({
           status: 500,
-          error,
+          error: 'party Table not created',
         });
         database.end();
       });
-    return executeQueries;
+    return execute;
   },
 
   // create a new political office
   async create(req, res) {
     const { name, hqAddress } = req.body;
-
-    if (!hqAddress || !name) {
+    console.log('oooooooohhhh');
+    if (!name || !hqAddress) {
       res.status(400).send({
         status: 400,
         message: 'please provide all information',
@@ -38,29 +39,28 @@ const parties = {
     } else {
       try {
         let findParties = partyQueries.fetchParties;
-
         findParties += ' WHERE name = $1';
-        let execute = [];
-        execute = await connect.query(findParties, [name]);
-        if (execute.rowCount > 0) {
-          res.status(302).send({
+        let executePartyQuiery = [];
+        executePartyQuiery = await connect.query(findParties, [name]);
+        if (executePartyQuiery.rowCount > 0) {
+          res.send({
             status: 302,
-            error: 'party already exist, please try other name',
+            error: 'office already exist, please try other name',
           });
         } else {
-          const data = [uuid(), name, hqAddress];
+          const data = [uuid(), name, type];
           const records = partyQueries.createParties;
           await connect.query(records, data);
-          res.status(201).send({
-            status: 201,
-            message: 'party created successfuly',
+          res.status(200).send({
+            status: 200,
+            message: 'office created successfuly',
             data: data[name],
           });
         }
       } catch (error) {
         console.log(error);
-        res.status(500).send({
-          status: 500,
+        res.send({
+          status: 400,
           error,
         });
       }
@@ -85,6 +85,33 @@ const parties = {
         res.status(404).send({
           status: 404,
           error: 'party not found!!',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        status: 500,
+        error,
+      });
+    }
+  },
+
+  // fetc all political paties
+  async getAllParties(req, res) {
+    try {
+      const findParties = partyQueries.fetchParties;
+
+      let fetchPartyQuery = [];
+      fetchPartyQuery = await connect.query(findParties);
+      if (fetchPartyQuery.rowCount > 0) {
+        res.status(302).send({
+          status: 302,
+          data: fetchPartyQuery.rows,
+        });
+      } else {
+        res.status(404).send({
+          status: 404,
+          error: 'not party found!!',
         });
       }
     } catch (error) {
