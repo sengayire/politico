@@ -30,7 +30,6 @@ const parties = {
   // create a new political office
   async create(req, res) {
     const { name, hqAddress } = req.body;
-    console.log('oooooooohhhh');
     if (!name || !hqAddress) {
       res.status(400).send({
         status: 400,
@@ -48,7 +47,7 @@ const parties = {
             error: 'office already exist, please try other name',
           });
         } else {
-          const data = [uuid(), name, type];
+          const data = [uuid(), name, hqAddress];
           const records = partyQueries.createParties;
           await connect.query(records, data);
           res.status(200).send({
@@ -113,6 +112,84 @@ const parties = {
           status: 404,
           error: 'not party found!!',
         });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        status: 500,
+        error,
+      });
+    }
+  },
+
+  // Delete a specific party by id
+  async deleteOneParty(req, res) {
+    const { id } = req.params;
+    try {
+      let findParties = partyQueries.fetchParties;
+
+      findParties += ' WHERE id = $1';
+      let fetchPartyQuery = [];
+      fetchPartyQuery = await connect.query(findParties, [id]);
+      if (fetchPartyQuery.rowCount > 0) {
+        const { deleteParty } = partyQueries;
+        await connect.query(deleteParty, [id]);
+        res.status(301).send({
+          status: 301,
+          data: {
+            message: `party with id: ${id} deleted successfully`,
+          },
+        });
+      } else {
+        res.status(404).send({
+          status: 404,
+          error: 'party not found!!',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        status: 500,
+        error,
+      });
+    }
+  },
+
+  // Edit a specific party by id
+  async editOneParty(req, res) {
+    const { id } = req.params;
+    const { name } = req.body;
+    try {
+      let getParties = partyQueries.fetchParties;
+      getParties += ' WHERE name = $1';
+      let fetchPartyName = [];
+      fetchPartyName = await connect.query(getParties, [name]);
+
+      if (fetchPartyName.rowCount > 0) {
+        res.status(304).json({
+          error: 'party with name already exists',
+        });
+      } else {
+        let findParties = partyQueries.fetchParties;
+        findParties += ' WHERE id = $1';
+        let fetchPartyQuery = [];
+        fetchPartyQuery = await connect.query(findParties, [id]);
+        if (fetchPartyQuery.rowCount > 0) {
+          const { editParty } = partyQueries;
+          await connect.query(editParty, [name, id]);
+          res.status(301).send({
+            status: 301,
+            data: {
+              id,
+              name,
+            },
+          });
+        } else {
+          res.status(404).send({
+            status: 404,
+            error: 'party not found!!',
+          });
+        }
       }
     } catch (error) {
       console.log(error);
