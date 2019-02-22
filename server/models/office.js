@@ -10,9 +10,11 @@ const officeTable = `CREATE TABLE IF NOT EXISTS offices(
   modified_date TIMESTAMP
    )`;
 
-// quiery to fetch paties
+// quiery to fetch
 
 const fetchOffices = 'SELECT * FROM offices WHERE name = $1';
+// Query to select all offices
+const selectAll = 'SELECT * FROM offices';
 
 // Query to create office
 const createOffice = 'INSERT INTO offices(id, name, type) VALUES($1,$2,$3)';
@@ -23,6 +25,7 @@ const results = 'SELECT candidate, office, COUNT(candidate) AS result FROM votes
 officeQueries.createOffice = createOffice;
 officeQueries.fetchOffices = fetchOffices;
 officeQueries.officeTable = officeTable;
+officeQueries.selectAll = selectAll;
 officeQueries.results = results;
 
 export default officeQueries;

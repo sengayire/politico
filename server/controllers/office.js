@@ -10,16 +10,16 @@ const office = {
     const execute = database.query(table)
       .then((resolve) => {
         console.log(resolve);
-        res.send({
-          status: 200,
+        res.status(201).send({
+          status: 201,
           message: 'office created succesfully',
         });
         database.end();
       })
       .catch((err) => {
-        res.send({
-          status: 400,
-          message: 'office not created',
+        res.status(500).send({
+          status: 500,
+          err,
         });
         console.log(err);
         database.end();
@@ -42,32 +42,87 @@ const office = {
         let execute = [];
         execute = await connect.query(findOffice, [name]);
         if (execute.rowCount > 0) {
-          res.send({
-            status: 302,
+          res.status(409).send({
+            status: 409,
             error: 'office already exist, please try other name',
           });
         } else {
           const data = [uuid(), name, type];
           const records = officeQueries.createOffice;
           await connect.query(records, data);
-          res.status(200).send({
-            status: 200,
+          res.status(201).send({
+            status: 201,
             message: 'office created successfuly',
             data: data[name],
           });
         }
       } catch (error) {
         console.log(error);
-        res.send({
-          status: 400,
+        res.status(500).send({
+          status: 500,
           error,
         });
       }
     }
   },
 
-  // election results
+  // Fetch all political offices
+  async getAllOffices(req, res) {
+    try {
+      const findOffice = officeQueries.selectAll;
 
+      let fetchOfficeQuery = [];
+      fetchOfficeQuery = await connect.query(findOffice);
+      if (fetchOfficeQuery.rowCount > 0) {
+        res.status(302).send({
+          status: 302,
+          data: fetchOfficeQuery.rows,
+        });
+      } else {
+        res.status(404).send({
+          status: 404,
+          error: 'Office not found!!',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        status: 500,
+        error,
+      });
+    }
+  },
+
+  // Fetch a specific Office by id
+  async getOneOffice(req, res) {
+    const { id } = req.params;
+    try {
+      let findOffice = officeQueries.selectAll;
+
+      findOffice += ' WHERE id = $1';
+      let fetchOfficeQuery = [];
+      fetchOfficeQuery = await connect.query(findOffice, [id]);
+      if (fetchOfficeQuery.rowCount > 0) {
+        res.status(302).send({
+          status: 302,
+          data: fetchOfficeQuery.rows,
+        });
+      } else {
+        res.status(404).send({
+          status: 404,
+          error: 'Office not found!!',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        status: 500,
+        error,
+      });
+    }
+  },
+
+  // election results
   async results(req, res) {
     try {
       const { id } = req.params;
@@ -82,7 +137,6 @@ const office = {
           error: `The office of id: <${id}> does not exist.`,
         });
       }
-
       // Fetch election results
       const { results } = officeQueries;
       const fetchResults = await connect.query(results, [id]);
