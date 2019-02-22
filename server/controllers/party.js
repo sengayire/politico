@@ -48,7 +48,7 @@ const parties = {
             error: 'office already exist, please try other name',
           });
         } else {
-          const data = [uuid(), name, type];
+          const data = [uuid(), name, hqAddress];
           const records = partyQueries.createParties;
           await connect.query(records, data);
           res.status(200).send({
