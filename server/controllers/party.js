@@ -27,7 +27,7 @@ const parties = {
     return execute;
   },
 
-  // create a new political office
+  // create a new political Party
   async create(req, res) {
     const { name, hqAddress } = req.body;
     if (!name || !hqAddress) {
@@ -52,7 +52,7 @@ const parties = {
           await connect.query(records, data);
           res.status(200).send({
             status: 200,
-            message: 'office created successfuly',
+            message: 'Party created successfuly',
             data: data[name],
           });
         }
