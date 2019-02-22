@@ -50,10 +50,10 @@ describe('Office', () => {
 describe('fetch a specific political office by id', () => {
   it('should get a specific political office', (done) => {
     chai.request(app)
-      .get('/api/v1/offices/id')
+      .get('/api/v1/offices')
       .end((err, res) => {
         res.should.be.a('object');
-        res.should.have.status(500);
+        res.should.have.status(302);
         done();
       });
   });

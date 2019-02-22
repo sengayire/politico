@@ -14,7 +14,7 @@ describe('Error 404 test', () => {
     chai.request(app)
       .post('/notexist')
       .send({
-        id: uuid(),
+        id: 1,
         type: 'hq',
         name: 'kagugu',
       })
@@ -36,7 +36,7 @@ describe('Office', () => {
   };
   it('should create an office', (done) => {
     chai.request(app)
-      .post('/api/v1/offices')
+      .post('/api/v1/parties')
       .send(record)
       .end((err, res) => {
         res.should.have.status(401);
@@ -50,10 +50,10 @@ describe('Office', () => {
 describe('fetch a specific political office by id', () => {
   it('should get a specific political office', (done) => {
     chai.request(app)
-      .get('/api/v1/offices/id')
+      .get('/api/v1/parties')
       .end((err, res) => {
         res.should.be.a('object');
-        res.should.have.status(500);
+        res.should.have.status(302);
         done();
       });
   });
@@ -62,7 +62,7 @@ describe('fetch a specific political office by id', () => {
 describe('Get all Government offices', () => {
   it('it should get all offices', (done) => {
     chai.request(app)
-      .get('/api/v1/offices')
+      .get('/api/v1/parties')
       .end((err, res) => {
         res.should.have.status(302);
         res.should.be.a('object');
@@ -81,7 +81,7 @@ describe('Update political Office', () => {
       createdDate: 23456,
     };
     chai.request(app)
-      .patch('/api/v1/offices/')
+      .patch('/api/v1/parties/')
       .send(record)
       .end((err, res) => {
         res.should.have.status(404);
