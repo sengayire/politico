@@ -13,8 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send({
-    message: 'Welcome to my API',
+  res.status(200).send({
+    status: 200,
+    message: 'Welcome to Politico API',
   });
 });
 // political parties API
