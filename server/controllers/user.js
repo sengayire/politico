@@ -21,6 +21,7 @@ const user = {
     return executeQueries;
   },
 
+
   // sign up new user
   async signUp(req, res) {
     const {
@@ -46,7 +47,10 @@ const user = {
     ];
 
     if (!helper.isValidEmail(email)) {
-      return res.status(400).send({ message: 'Please enter a valid email address' });
+      return res.status(400).send({
+        status: 400,
+        error: 'Please enter a valid email address',
+      });
     }
 
     const search = sqlQueries.selectAll;

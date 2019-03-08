@@ -1,5 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import swagger from 'swagger-ui-express';
+import docs from 'swagger-jsdoc';
+// import swaggerDefinition from '../swagger.json';
 import router from './routes/party';
 import officeRoute from './routes/office';
 import candidateRoute from './routes/candidate';
@@ -12,12 +15,35 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.status(200).send({
-    status: 200,
-    message: 'Welcome to Politico API',
-  });
+const swaggerDefinition = {
+  info: {
+    title: 'Politico api Documentation',
+    version: '2.0',
+    description: 'Endpoints to test the user registration routes',
+  },
+  host: 'https://politico-andela.herokuapp.com',
+  basePath: '/api/v1',
+  securityDefinitions: {
+    bearerAuth: {
+      type: 'apiKey',
+      name: 'Authorization',
+      scheme: 'bearer',
+      in: 'header',
+    },
+  },
+};
+const options = {
+  swaggerDefinition,
+  apis: ['./server/routes/*.js'],
+};
+const swaggerSpec = docs(options);
+app.get('/swagger', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
 });
+// adding swagger documantation to my endpoints
+app.use('/api/v1', swagger.serve, swagger.setup(swaggerSpec));
+
 // political parties API
 app.use('/api/v1/parties', router);
 
