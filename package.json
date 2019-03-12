@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "babel-preset-airbnb": "^3.2.0",
+    "coveralls": "^3.0.3",
     "eslint": "^5.12.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.15.0",

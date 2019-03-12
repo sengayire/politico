@@ -76,6 +76,7 @@ router.get('/:id', party.getOneParty);
 *       - Parties
 *     name: delete one party
 *     summary: delete party by id
+*     consumes:
 *       - application/json
 *     parameters:
 *       - name: id
@@ -102,6 +103,7 @@ router.delete('/:id', helper.verifyToken, party.deleteOneParty);
 *       - Parties
 *     name: update party
 *     summary: update party by id
+*     consumes:
 *       - application/json
 *     parameters:
 *       - name: id

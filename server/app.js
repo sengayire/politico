@@ -21,7 +21,7 @@ const swaggerDefinition = {
     version: '2.0',
     description: 'Endpoints to test the user registration routes',
   },
-  host: 'https://politico-andela.herokuapp.com',
+  host: 'localhost:3000',
   basePath: '/api/v1',
   securityDefinitions: {
     bearerAuth: {
@@ -42,7 +42,7 @@ app.get('/swagger', (req, res) => {
   res.send(swaggerSpec);
 });
 // adding swagger documantation to my endpoints
-app.use('/api/v1', swagger.serve, swagger.setup(swaggerSpec));
+app.use('/', swagger.serve, swagger.setup(swaggerSpec));
 
 // political parties API
 app.use('/api/v1/parties', router);
