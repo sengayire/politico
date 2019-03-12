@@ -7,7 +7,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-babel",
-    "test": "nyc mocha --require babel-polyfill --require babel-register --exec babel-node  server/test/* --exit",
+    "test": "nyc --require babel-polyfill --require babel-register --exec babel-node mocha server/test/* --exit",
     "dev": "nodemon --exec babel-node server/app.js",
     "start": "npm run build && node ./build/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
