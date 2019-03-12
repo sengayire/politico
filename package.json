@@ -7,7 +7,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-babel",
-    "test": "nyc --require babel-polyfill --require babel-register --exec babel-node mocha server/test/* --exit",
+    "test": "nyc  mocha server/test/* --exit",
     "dev": "nodemon --exec babel-node server/app.js",
     "start": "npm run build && node ./build/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
@@ -58,6 +58,7 @@
     "eslint-plugin-mocha": "^5.2.1",
     "eslint-plugin-react": "^7.12.4",
     "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^13.3.0"
   },
   "engines": {
