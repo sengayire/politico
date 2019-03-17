@@ -6,20 +6,20 @@ import connect from '../models/database';
 import helper from '../helpers/helper';
 
 const user = {
-  // create user table
-  async createTable() {
-    const table = sqlQueries.userTable;
-    const executeQueries = database.query(table)
-      .then((res) => {
-        console.log(res);
-        database.end();
-      })
-      .catch((err) => {
-        console.log(err);
-        connect.end();
-      });
-    return executeQueries;
-  },
+  // // create user table
+  // async createTable() {
+  //   const table = sqlQueries.userTable;
+  //   const executeQueries = database.query(table)
+  //     .then((res) => {
+  //       console.log(res);
+  //       database.end();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       connect.end();
+  //     });
+  //   return executeQueries;
+  // },
 
 
   // sign up new user
@@ -33,7 +33,7 @@ const user = {
       passportUrl,
     } = req.body;
 
-    const hasedPassword = helper.hashPassword(req.body.password);
+    const hashedPassword = helper.hashPassword(req.body.password);
 
     const data = [
       uuid(),
@@ -41,7 +41,7 @@ const user = {
       lastName,
       otherName,
       email,
-      hasedPassword,
+      hashedPassword,
       phoneNumber,
       passportUrl,
     ];
@@ -58,7 +58,12 @@ const user = {
 
     fetchUser = await connect.query(search, [email]);
 
-    if (fetchUser.rowCount > 0) return res.send({ error: 'User already exist' });
+    if (fetchUser.rowCount > 0) {
+      return res.status(409).send({
+        status: 409,
+        error: 'User already exist',
+      });
+    }
     try {
       const queries = sqlQueries.singUp;
       const { rows } = await connect.query(queries, data);
@@ -88,7 +93,6 @@ const user = {
       let fetchUser = [];
 
       fetchUser = await connect.query(search, [email]);
-      console.log(fetchUser);
       if (fetchUser.rowCount > 0) {
         const compare = helper.comparePassword(fetchUser.rows[0].password, password);
 
@@ -108,11 +112,11 @@ const user = {
 
         });
       }
-      res.send({
+      res.status(403).send({
+        status: 403,
         error: 'User not found',
       });
     } catch (error) {
-      console.log(error);
       return res.send({
         error,
       });

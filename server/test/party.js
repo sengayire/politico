@@ -1,127 +1,124 @@
-// /* eslint-disable no-undef */
-// import uuid from 'uuid';
-// import chai from 'chai';
-// import chaiHttp from 'chai-http';
-// import Office from '../models/office';
-// import app from '../app';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../app';
 
-// const should = chai.should();
-// chai.use(chaiHttp);
+let userToken;
+chai.use(chaiHttp);
+chai.should();
 
-// // Test error 404
-// describe('Error 404 test', () => {
-//   it('return error', (done) => {
-//     chai.request(app)
-//       .post('/notexist')
-//       .send({
-//         id: 1,
-//         type: 'hq',
-//         name: 'kagugu',
-//       })
-//       .end((err, res) => {
-//         res.should.have.status(404);
-//         res.should.be.a('object');
-//         done();
-//       });
-//   });
-// });
+describe('login user before access endpoint', () => {
+  // sign in user
+  it('login user', (done) => {
+    const user = {
+      email: 'psengayire@gmail.com',
+      password: 'pw',
+    };
+    chai.request(app)
+      .post('/api/v1/users/auth/signin')
+      .send(user)
+      .end((err, res) => {
+        res.body.should.be.an('object');
+        res.status.should.be.eql(200);
+        res.body.should.have.property('status').equal(200);
+        res.body.data[0].should.have.property('token');
+        userToken = res.body.data[0].token;
+        done();
+      });
+  });
+});
+describe('test party endpoints', () => {
+      // create new  political office if not exist in database
+  it('create new party', (done) => {
+    const data = {
+      name: 'MUSANZE',
+      hqAddress: 'Kigali',
+      logoUrl : 'logo',
+    };
+    chai.request(app)
+      .post('/api/v1/parties/')
+      .set('access-token', userToken)
+      .send(data)
+      .end((err, res) => {
+        res.body.should.be.an('object');
+        res.status.should.be.eql(200);
+        res.body.should.have.property('message').equal('Party created successfuly');
+        res.body.should.have.property('status').equal(200);
+        done();
+      });
+  });
 
-// // test that it create political office
-// describe('Office', () => {
-//   const record = {
-//     id: uuid(),
-//     name: 'office',
-//     type: 'state',
-//     createdDate: Date(),
-//   };
-//   it('should create an office', (done) => {
-//     chai.request(app)
-//       .post('/api/v1/parties')
-//       .send(record)
-//       .end((err, res) => {
-//         res.should.have.status(401);
-//         res.body.should.be.a('object');
-//         done();
-//       });
-//   });
-// });
+  // it should not create office if already exist
+  it('fail to create new party if exist', (done) => {
+    const data = {
+      name: 'FPR',
+      hqAddress: 'Kigali',
+      logoUrl : 'logo',
+    };
+    chai.request(app)
+      .post('/api/v1/parties/')
+      .set('access-token', userToken)
+      .send(data)
+      .end((err, res) => {
+        res.body.should.be.an('object');
+        res.status.should.be.eql(409);
+        res.body.should.have.property('error').equal('political party already exist');
+        res.body.should.have.property('status').equal(409);
+        done();
+      });
+  });
 
-// // test that it get a specific political office by id
-// describe('fetch a specific political office by id', () => {
-//   it('should get a specific political office', (done) => {
-//     chai.request(app)
-//       .get('/api/v1/parties')
-//       .end((err, res) => {
-//         res.should.be.a('object');
-//         res.should.have.status(302);
-//         done();
-//       });
-//   });
-// });
+  // it should not create office if already exist
+  it('should get all political party', (done) => {
+    chai.request(app)
+      .get('/api/v1/parties/')
+      .end((err, res) => {
+        res.status.should.be.eql(200);
+        res.body.should.have.property('status').equal(200);
+        res.body.should.have.property('status').equal(200);
+        res.body.should.have.property('data');
+        done();
+      });
+    });
 
-// describe('Get all Government offices', () => {
-//   it('it should get all offices', (done) => {
-//     chai.request(app)
-//       .get('/api/v1/parties')
-//       .end((err, res) => {
-//         res.should.have.status(302);
-//         res.should.be.a('object');
-//         done();
-//       });
-//   });
-// });
+    // it get single political party
+    it('should get single political party', (done) => {
+     chai.request(app)
+       .get('/api/v1/parties/3262afbe-af5c-4ecd-a223-8228c6c667a0')
+       .end((err, res) => {
+         res.status.should.be.eql(200);
+         res.body.should.have.property('status').equal(200);
+         res.body.should.have.property('data');
+         done();
+       });
+     });
+// it delete a specific political party
+it('should delete single political party', (done) => {
+  chai.request(app)
+    .delete('/api/v1/parties/5f62b4b9-2c06-4c12-93f8-b52b7230a16a')
+    .set('access-token', userToken)
+    .end((err, res) => {
+      res.status.should.be.eql(200);
+      res.body.should.have.property('status').equal(200);
+      res.body.should.have.property('data');
+      done();
+    });
+  });
 
+  it('should edit a single party name', (done) => {
+    const data = {
+      name: 'MUSATA',
+    };
+    chai.request(app)
+      .patch('/api/v1/parties/7b75dc69-5e76-4fda-b254-ceb0c0cbcfd1/name')
+      .set('access-token', userToken)
+      .send(data)
+      .end((err, res) => {
+        res.body.should.be.an('object');
+        res.status.should.be.eql(200);
+        res.body.should.have.property('data');
+        res.body.should.have.property('status').equal(200);
+        done();
+      });
+  });
 
-// // update a government office
-// describe('Update political Office', () => {
-//   it('should not Update an Office', (done) => {
-//     const record = {
-//       name: 'state office',
-//       type: 'state',
-//       createdDate: 23456,
-//     };
-//     chai.request(app)
-//       .patch('/api/v1/parties/')
-//       .send(record)
-//       .end((err, res) => {
-//         res.should.have.status(404);
-//         done();
-//       });
-//   });
-// });
-
-// // delete a government office
-// // describe('Delete a Government Office', () => {
-// //   it('it should fail to Delete an Office', (done) => {
-// //     const record = {
-// //       name: 'state office',
-// //       type: 'state',
-// //       createdDate: 23456,
-// //     };
-
-// //     const office = Office.createOffice(record);
-// //     chai.request(app)
-// //       .delete('/api/v1/offices/dhfdafd')
-// //       .send(office)
-// //       .end((err, res) => {
-// //         res.should.have.status(201);
-// //         done();
-// //       });
-// //   });
-
-// //   // it('it should delete an Office', (done) => {
-// //   //   const data = {
-// //   //     name: 'state office',
-// //   //     type: 'state',
-// //   //     createdDate: 23456,
-// //   //     modifiedDate: 2345,
-// //   //   };
-
-// //   const office = Office.createOffice(data);
-// //   chai.request(app)
-// //     .delete(`/api/v1/offices/${office.id}`)
-// //     .end((err, res) => {
-// //       res.should.have.status(200);
-// //       done();
-// //     });
-// // });
+});

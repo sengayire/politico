@@ -4,28 +4,28 @@ import candidatesQueries from '../models/candidates';
 import connect from '../models/database';
 
 const candidates = {
-// controller to create a political office table
-  async candidatesTable(req, res) {
-    const table = candidatesQueries.candidatesTable;
-    const execute = database.query(table)
-      .then((resolve) => {
-        console.log(resolve);
-        res.status(201).send({
-          status: 201,
-          message: 'candidate table created succesfully',
-        });
-        database.end();
-      })
-      .catch((err) => {
-        res.status(500).send({
-          status: 500,
-          message: 'candidate table not created',
-        });
-        console.log(err);
-        database.end();
-      });
-    return execute;
-  },
+// // controller to create a political office table
+//   async candidatesTable(req, res) {
+//     const table = candidatesQueries.candidatesTable;
+//     const execute = database.query(table)
+//       .then((resolve) => {
+//         console.log(resolve);
+//         res.status(201).send({
+//           status: 201,
+//           message: 'candidate table created succesfully',
+//         });
+//         database.end();
+//       })
+//       .catch((err) => {
+//         res.status(500).send({
+//           status: 500,
+//           message: 'candidate table not created',
+//         });
+//         console.log(err);
+//         database.end();
+//       });
+//     return execute;
+//   },
 
   // create a new political office
   async create(req, res) {
@@ -33,11 +33,10 @@ const candidates = {
       username, party, user,
     } = req.body;
     const { office } = req.params;
-    console.log(office);
     if (!office || !user) {
       res.status(400).send({
         status: 400,
-        message: 'please provide all information',
+        message: 'please provide all information',
       });
     } else {
       try {
@@ -65,7 +64,6 @@ const candidates = {
           });
         }
       } catch (error) {
-        console.log(error);
         res.status(500).send({
           status: 500,
           error,

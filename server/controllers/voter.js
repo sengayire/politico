@@ -4,30 +4,29 @@ import voter from '../models/vote';
 import connect from '../models/database';
 
 const candidates = {
-// controller to create a political office table
-  async vortersTable(req, res) {
-    const table = voter.VotersTable;
-    const executeQueries = database.query(table)
-      .then((resolve) => {
-        console.log(resolve);
-        res.status(201).send({
-          status: 201,
-          message: 'voters table created succesfully',
-        });
-        database.end();
-      })
-      .catch((err) => {
-        res.status(400).send({
-          status: 400,
-          message: 'voters table not created',
-        });
-        console.log(err);
-        database.end();
-      });
-    return executeQueries;
-  },
+// // controller to create a political office table
+//   async vortersTable(req, res) {
+//     const table = voter.VotersTable;
+//     const executeQueries = database.query(table)
+//       .then((resolve) => {
+//         res.status(201).send({
+//           status: 201,
+//           message: 'voters table created succesfully',
+//         });
+//         database.end();
+//       })
+//       .catch((err) => {
+//         res.status(400).send({
+//           status: 400,
+//           message: 'voters table not created',
+//         });
+//         console.log(err);
+//         database.end();
+//       });
+//     return executeQueries;
+//   },
 
-  //  create a new political office
+  //  register new vote
   async create(req, res) {
     const {
       createdOn, createdBy, office, candidate,
@@ -46,16 +45,16 @@ const candidates = {
         let executeQueries = [];
         executeQueries = await connect.query(findVoter, [createdBy, office]);
         if (executeQueries.rowCount > 0) {
-          res.send({
-            status: 302,
+          res.status(409).send({
+            status: 409,
             error: ' user already voted',
           });
         } else {
           const data = [uuid(), createdOn, createdBy, candidate, office];
           const records = voter.vote;
           await connect.query(records, data);
-          res.status(200).send({
-            status: 200,
+          res.status(201).send({
+            status: 201,
             message: 'user voted successfuly',
             data: {
               office,
@@ -65,9 +64,8 @@ const candidates = {
           });
         }
       } catch (error) {
-        console.log(error);
         res.send({
-          status: 400,
+          status: 500,
           error,
         });
       }

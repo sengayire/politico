@@ -2,7 +2,9 @@ import express from 'express';
 import user from '../controllers/user';
 
 const userRoute = express.Router();
-userRoute.post('/userTable', user.createTable);
+// userRoute.post('/userTable', user.createTable);
+
+
 /**
 * @swagger
 * /users/auth/signup:

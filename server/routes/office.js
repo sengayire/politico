@@ -7,7 +7,9 @@ import helpers from '../helpers/helper';
 const officeRoute = express.Router();
 
 // Political Office API endpoints
-officeRoute.post('/create', validate, office.officeTable);
+// officeRoute.post('/create', validate, office.officeTable);
+
+
 /**
 * @swagger
 * /offices/:

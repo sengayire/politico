@@ -8,6 +8,9 @@ const validate = celebrate({
     office: Joi.string()
       .required()
       .trim(),
+      party: Joi.string()
+      .required()
+      .trim(),
     user: Joi.string().required().trim(),
   }),
 });

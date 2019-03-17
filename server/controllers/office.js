@@ -4,28 +4,26 @@ import officeQueries from '../models/office';
 import connect from '../models/database';
 
 const office = {
-// controller to create a political office table
-  async officeTable(req, res) {
-    const table = officeQueries.officeTable;
-    const execute = database.query(table)
-      .then((resolve) => {
-        console.log(resolve);
-        res.status(201).send({
-          status: 201,
-          message: 'office created succesfully',
-        });
-        database.end();
-      })
-      .catch((err) => {
-        res.status(500).send({
-          status: 500,
-          err,
-        });
-        console.log(err);
-        database.end();
-      });
-    return execute;
-  },
+// // controller to create a political office table
+//   async officeTable(req, res) {
+//     const table = officeQueries.officeTable;
+//     const execute = database.query(table)
+//       .then((resolve) => {
+//         res.status(201).send({
+//           status: 201,
+//           message: 'office table created succesfully',
+//         });
+//         database.end();
+//       })
+//       .catch((err) => {
+//         res.status(500).send({
+//           status: 500,
+//           err,
+//         });
+//         database.end();
+//       });
+//     return execute;
+//   },
 
   // create a new political office
   async create(req, res) {
@@ -53,11 +51,10 @@ const office = {
           res.status(201).send({
             status: 201,
             message: 'office created successfuly',
-            data: data[name],
+            data,
           });
         }
       } catch (error) {
-        console.log(error);
         res.status(500).send({
           status: 500,
           error,
@@ -70,22 +67,20 @@ const office = {
   async getAllOffices(req, res) {
     try {
       const findOffice = officeQueries.selectAll;
-
       let fetchOfficeQuery = [];
       fetchOfficeQuery = await connect.query(findOffice);
       if (fetchOfficeQuery.rowCount > 0) {
-        res.status(302).send({
-          status: 302,
+        res.status(200).send({
+          status: 200,
           data: fetchOfficeQuery.rows,
         });
       } else {
-        res.status(404).send({
-          status: 404,
+        res.status(403).send({
+          status: 403,
           error: 'Office not found!!',
         });
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,
@@ -103,8 +98,8 @@ const office = {
       let fetchOfficeQuery = [];
       fetchOfficeQuery = await connect.query(findOffice, [id]);
       if (fetchOfficeQuery.rowCount > 0) {
-        res.status(302).send({
-          status: 302,
+        res.status(200).send({
+          status: 200,
           data: fetchOfficeQuery.rows,
         });
       } else {
@@ -114,7 +109,6 @@ const office = {
         });
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,
@@ -131,7 +125,6 @@ const office = {
       findOffice += ' WHERE id = $1';
       let executeOfficeQuery = [];
       executeOfficeQuery = await connect.query(findOffice, [id]);
-      console.log(executeOfficeQuery);
       if (executeOfficeQuery.rowCount === 0) {
         return res.status(404).send({
           status: 404,
@@ -158,7 +151,6 @@ const office = {
       });
     }
   },
-
 };
 
 export default office;

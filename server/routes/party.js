@@ -9,7 +9,7 @@ import helper from '../helpers/helper';
 const router = express.Router();
 
 // Political party APIs
-router.post('/create', party.partyTable);
+// router.post('/create', party.partyTable);
 /**
 * @swagger
 * /parties/:
@@ -121,7 +121,7 @@ router.delete('/:id', helper.verifyToken, party.deleteOneParty);
 *       404:
 *         description: Party not updated
 */
-router.patch('/:id/:name', helper.verifyToken, editValidation, party.editOneParty);
+router.patch('/:id/name', helper.verifyToken, editValidation, party.editOneParty);
 /**
 * @swagger
 * /parties/:

@@ -4,28 +4,26 @@ import partyQueries from '../models/partyData';
 import connect from '../models/database/index';
 
 const parties = {
-// controller to create a political office table
-  async partyTable(req, res) {
-    const table = partyQueries.createPartyTableQuery;
-    const execute = database.query(table)
-      .then((resolve) => {
-        console.log(resolve);
-        res.status(201).send({
-          status: 201,
-          message: 'party table created succesfully',
-        });
-        database.end();
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send({
-          status: 500,
-          error: 'party Table not created',
-        });
-        database.end();
-      });
-    return execute;
-  },
+// // controller to create a political office table
+//   async partyTable(req, res) {
+//     const table = partyQueries.createPartyTableQuery;
+//     const execute = database.query(table)
+//       .then((resolve) => {
+//         res.status(201).send({
+//           status: 201,
+//           message: 'party table created succesfully',
+//         });
+//         database.end();
+//       })
+//       .catch((error) => {
+//         res.status(500).send({
+//           status: 500,
+//           error: 'party Table not created',
+//         });
+//         database.end();
+//       });
+//     return execute;
+//   },
 
   // create a new political Party
   async create(req, res) {
@@ -42,9 +40,9 @@ const parties = {
         let executePartyQuiery = [];
         executePartyQuiery = await connect.query(findParties, [name]);
         if (executePartyQuiery.rowCount > 0) {
-          res.send({
-            status: 302,
-            error: 'office already exist, please try other name',
+          res.status(409).send({
+            status: 409,
+            error: 'political party already exist',
           });
         } else {
           const data = [uuid(), name, hqAddress];
@@ -57,7 +55,6 @@ const parties = {
           });
         }
       } catch (error) {
-        console.log(error);
         res.send({
           status: 400,
           error,
@@ -76,8 +73,8 @@ const parties = {
       let fetchPartyQuery = [];
       fetchPartyQuery = await connect.query(findParties, [id]);
       if (fetchPartyQuery.rowCount > 0) {
-        res.status(302).send({
-          status: 302,
+        res.status(200).send({
+          status: 200,
           data: fetchPartyQuery.rows,
         });
       } else {
@@ -87,7 +84,6 @@ const parties = {
         });
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,
@@ -103,8 +99,8 @@ const parties = {
       let fetchPartyQuery = [];
       fetchPartyQuery = await connect.query(findParties);
       if (fetchPartyQuery.rowCount > 0) {
-        res.status(302).send({
-          status: 302,
+        res.status(200).send({
+          status: 200,
           data: fetchPartyQuery.rows,
         });
       } else {
@@ -114,7 +110,6 @@ const parties = {
         });
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,
@@ -134,8 +129,8 @@ const parties = {
       if (fetchPartyQuery.rowCount > 0) {
         const { deleteParty } = partyQueries;
         await connect.query(deleteParty, [id]);
-        res.status(301).send({
-          status: 301,
+        res.status(200).send({
+          status: 200,
           data: {
             message: `party with id: ${id} deleted successfully`,
           },
@@ -147,7 +142,6 @@ const parties = {
         });
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,
@@ -166,7 +160,7 @@ const parties = {
       fetchPartyName = await connect.query(getParties, [name]);
 
       if (fetchPartyName.rowCount > 0) {
-        res.status(304).json({
+        res.status(409).json({
           error: 'party with name already exists',
         });
       } else {
@@ -177,8 +171,8 @@ const parties = {
         if (fetchPartyQuery.rowCount > 0) {
           const { editParty } = partyQueries;
           await connect.query(editParty, [name, id]);
-          res.status(301).send({
-            status: 301,
+          res.status(200).send({
+            status: 200,
             data: {
               id,
               name,
@@ -192,7 +186,6 @@ const parties = {
         }
       }
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         status: 500,
         error,

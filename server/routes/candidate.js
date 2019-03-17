@@ -7,7 +7,7 @@ import helpers from '../helpers/helper';
 const candidateRoute = express.Router();
 
 // Political Office API endpoints
-candidateRoute.post('/create', candidates.candidatesTable);
+// candidateRoute.post('/create', candidates.candidatesTable);
 candidateRoute.post('/:office/register', helpers.verifyToken, validate, candidates.create);
 
 candidateRoute.use(errors());
